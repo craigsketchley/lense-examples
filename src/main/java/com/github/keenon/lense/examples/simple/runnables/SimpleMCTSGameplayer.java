@@ -1,6 +1,6 @@
 package com.github.keenon.lense.examples.simple.runnables;
 
-import com.github.keenon.lense.examples.ner.NERStaticBatch;
+import com.github.keenon.lense.examples.simple.SimpleStaticBatch;
 import com.github.keenon.lense.gameplay.Game;
 import com.github.keenon.lense.gameplay.players.GamePlayer;
 import com.github.keenon.lense.gameplay.players.GamePlayerMCTS;
@@ -13,7 +13,7 @@ import java.io.IOException;
 /**
  * Created by craig on 08/12/16.
  */
-public class SimpleMCTSGameplayer extends NERStaticBatch {
+public class SimpleMCTSGameplayer extends SimpleStaticBatch {
 
     static String destFolder = "src/main/resources/simple/runs";
 
