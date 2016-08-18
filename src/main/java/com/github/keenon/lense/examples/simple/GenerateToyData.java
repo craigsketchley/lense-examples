@@ -25,8 +25,8 @@ public class GenerateToyData {
         };
 
         double[] errorRate = new double[] { // Abitrary
-                0.3,
-                0.3
+                0.1,
+                0.1
         };
         List<String> tags = new ArrayList<>();
         for (String t : adTags) tags.add(t);
