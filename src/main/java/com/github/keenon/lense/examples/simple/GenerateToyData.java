@@ -25,8 +25,8 @@ public class GenerateToyData {
         };
 
         double[] errorRate = new double[] { // Abitrary
-                0.36,
-                0.16
+                0.3,
+                0.3
         };
         List<String> tags = new ArrayList<>();
         for (String t : adTags) tags.add(t);
@@ -100,6 +100,8 @@ public class GenerateToyData {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        Collections.shuffle(batch);
 
         Random r = new Random(42); // Repeatable
 

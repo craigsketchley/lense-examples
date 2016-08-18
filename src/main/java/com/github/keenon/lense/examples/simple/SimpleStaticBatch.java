@@ -138,7 +138,7 @@ public abstract class SimpleStaticBatch extends StaticBatchLense {
                 queries[ql.variable]++;
             }
         }
-        bw.append("VALUES\tLABEL\tGUESS\nQUERIES\n-------------\n");
+        bw.append("VALUES\tLABEL\tGUESS\tQUERIES\n-------------\n");
         for (int i = 0; i < game.model.getVariableSizes().length; i++) {
             if (!game.model.getVariableMetaDataByReference(i).containsKey("VALUES")) break;
             bw.append(game.model.getVariableMetaDataByReference(i).get("VALUES"));
@@ -290,28 +290,26 @@ public abstract class SimpleStaticBatch extends StaticBatchLense {
 
                 checkpointRecord.tagF1.put(tag, f1);
 
-                if (!tag.equals("O")) {
-                    avgF1 += f1;
-                }
+                avgF1 += f1;
             }
-            avgF1 /= 3;
+            avgF1 /= tags.length;
             bw.write("\n\nAvg F1: "+avgF1);
 
             checkpointRecord.avgF1 = avgF1;
             checkpointRecord.avgQueries = (queries/totalValues);
 
             bw.write("\n\nQueries: ");
-            bw.write("\nQ/tok: "+(queries/totalValues)+" ("+queries+"/"+totalValues+")");
+            bw.write("\nQ/label: "+(queries/totalValues)+" ("+queries+"/"+totalValues+")");
             for (String tag : tags) {
                 bw.write("\n"+tag+" ("+foundCorrect.getOrDefault(tag, 0.0).intValue()+")");
                 double qs = foundCorrect.getOrDefault(tag, 0.0) == 0 ? 0.0 : queriesPerType.getOrDefault(tag, 0.0) / foundCorrect.get(tag);
-                bw.write("\n\tQ/tok: "+qs+" ("+queriesPerType.getOrDefault(tag, 0.0)+"/"+foundCorrect.get(tag)+")");
+                bw.write("\n\tQ/label: "+qs+" ("+queriesPerType.getOrDefault(tag, 0.0)+"/"+foundCorrect.get(tag)+")");
 
                 checkpointRecord.tagQueries.put(tag, qs);
             }
 
             bw.write("\n\nDelays: ");
-            bw.write("\nms/tok: "+(delays/totalValues)+" ("+delays+"/"+totalValues+")");
+            bw.write("\nms/label: "+(delays/totalValues)+" ("+delays+"/"+totalValues+")");
 
             bw.close();
         } catch (IOException e) {
@@ -321,9 +319,9 @@ public abstract class SimpleStaticBatch extends StaticBatchLense {
         checkpointRecords.add(checkpointRecord);
 
         GNUPlot queriesPlot = new GNUPlot();
-        queriesPlot.title = "Queries/vect vs time, by class";
+        queriesPlot.title = "Queries/label vs time, by class";
         queriesPlot.xLabel = "iterations";
-        queriesPlot.yLabel = "Queries/vect";
+        queriesPlot.yLabel = "Queries/label";
 
         for (String tag : tags) {
             double[] x = new double[checkpointRecords.size()];
